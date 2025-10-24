@@ -54,4 +54,5 @@ anchor build
 anchor deploy
 
 # (optional) run tests
+yarn install
 anchor test
