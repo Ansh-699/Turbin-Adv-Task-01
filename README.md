@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="public/image.png" alt="Limited Claim Program Banner" width="600" />
+</div>
+
 # Limited Claim — Solana Anchor Program
 
 A minimal on-chain system that manages a fixed number of available spots (for example: event seats, tickets, or access passes).  
