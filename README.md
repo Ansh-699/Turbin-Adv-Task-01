@@ -44,8 +44,8 @@ The diagram below explains how the **instructions** (`initialize_counter`, `clai
 ## How to Run (Local)
 ```bash
 # clone
-git clone <your_repo_url>
-cd <Tab>
+git clone https://github.com/Ansh-699/Turbin-Adv-Task-01.git
+cd Turbin-Adv-Task-01
 
 # build
 anchor build
