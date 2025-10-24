@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/image.png" alt="Limited Claim Program Banner" width="600" />
+  <img src="public/image.png" alt="Limited Claim Program Banner" width="300" />
 </div>
 
 # Limited Claim — Solana Anchor Program
