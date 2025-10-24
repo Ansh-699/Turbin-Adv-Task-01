@@ -11,7 +11,7 @@ The program ensures fairness by allowing only one claim per participant and auto
 
 **As a participant**, I want to claim one seat and be able to cancel it so the seat returns to the pool.
 
-### Acceptance criteria
+### Acceptance Criteria
 - The organizer sets the total number of seats when creating the campaign.  
 - A participant can claim a seat only if seats remain.  
 - Each participant can hold at most one claim at a time.  
@@ -21,7 +21,15 @@ The program ensures fairness by allowing only one claim per participant and auto
 
 ---
 
-## How it works (short)
+## Architecture Diagram
+
+The diagram below explains how the **instructions** (`initialize_counter`, `claim`, and `cancel`) interact with their **Program Derived Accounts (PDAs)** such as `Counter` and `ClaimReceipt`.
+
+![Architecture Diagram](public/Architecture-Diagram.png)
+
+---
+
+## How It Works (Short)
 1. Organizer creates the campaign and sets total seats.  
 2. Participants claim one seat each. A claim is recorded.  
 3. Participants can cancel their claim, freeing the seat.  
@@ -29,7 +37,7 @@ The program ensures fairness by allowing only one claim per participant and auto
 
 ---
 
-## How to run (local)
+## How to Run (Local)
 ```bash
 # clone
 git clone <your_repo_url>
