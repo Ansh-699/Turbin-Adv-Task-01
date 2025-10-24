@@ -45,7 +45,7 @@ The diagram below explains how the **instructions** (`initialize_counter`, `clai
 ```bash
 # clone
 git clone <your_repo_url>
-cd limited-claim
+cd <Tab>
 
 # build
 anchor build
