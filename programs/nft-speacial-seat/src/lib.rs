@@ -6,10 +6,15 @@ declare_id!("Gi9ZPReh1pPsvpukkvuRMbboJtcpPh4ryqnFz4tkhLbJ");
 pub mod limited_claim {
     use super::*;
 
-    pub fn initialize_counter(ctx: Context<InitializeCounter>, capacity: u64) -> Result<()> {
+    pub fn initialize_counter(
+        ctx: Context<InitializeCounter>,
+        capacity: u64,
+        start_time: i64,
+    ) -> Result<()> {
         let counter = &mut ctx.accounts.counter;
         counter.admin = *ctx.accounts.admin.key;
         counter.capacity = capacity;
+        counter.start_time = start_time;
         counter.remaining = capacity;
         counter.bump = ctx.bumps.counter;
         Ok(())
@@ -19,6 +24,10 @@ pub mod limited_claim {
         let counter = &mut ctx.accounts.counter;
 
         require!(counter.remaining > 0, CustomError::SoldOut);
+        require!(
+            Clock::get()?.unix_timestamp >= counter.start_time,
+            CustomError::NotStarted
+        );
 
         counter.remaining = counter
             .remaining
@@ -43,7 +52,11 @@ pub mod limited_claim {
         let counter = &mut ctx.accounts.counter;
         let receipt = &ctx.accounts.receipt;
 
-        require_keys_eq!(receipt.claimer, *ctx.accounts.claimer.key, CustomError::Unauthorized);
+        require_keys_eq!(
+            receipt.claimer,
+            *ctx.accounts.claimer.key,
+            CustomError::Unauthorized
+        );
 
         require!(
             counter.remaining < counter.capacity,
@@ -65,9 +78,8 @@ pub mod limited_claim {
     }
 }
 
-
 #[derive(Accounts)]
-#[instruction(capacity: u64)]
+#[instruction(capacity: u64, start_time: i64)]
 pub struct InitializeCounter<'info> {
     #[account(
         init,
@@ -129,18 +141,18 @@ pub struct Cancel<'info> {
     pub system_program: Program<'info, System>,
 }
 
-
 #[account]
 pub struct Counter {
     pub admin: Pubkey,
     pub capacity: u64,
+    pub start_time: i64,
     pub remaining: u64,
     pub bump: u8,
 }
 
 impl Counter {
-    // 32 (admin) + 8 (capacity) + 8 (remaining) + 1 (bump) = 49
-    pub const SIZE: usize = 32 + 8 + 8 + 1;
+    // 32 (admin) + 8 (capacity) + 8 (start_time) + 8 (remaining) + 1 (bump) = 57
+    pub const SIZE: usize = 32 + 8 + 8 + 8 + 1;
 }
 
 #[account]
@@ -181,5 +193,6 @@ pub enum CustomError {
     CounterAtCapacity,
     #[msg("Counter overflow")]
     CounterOverflow,
+    #[msg("Claiming has not started yet")]
+    NotStarted,
 }
-

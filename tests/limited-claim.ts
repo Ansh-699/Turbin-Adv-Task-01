@@ -21,7 +21,7 @@ describe("limited_claim", () => {
     );
 
     const tx = await program.methods
-      .initializeCounter(new anchor.BN(3))
+      .initializeCounter(new anchor.BN(3), new anchor.BN(0))
       .accounts({
         counter: counterPda,
         admin: admin.publicKey,
